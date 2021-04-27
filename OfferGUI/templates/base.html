@@ -19,7 +19,7 @@
 <body>
   <!-- Navigation Bar-->
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="{{ url_for('home_page') }}">OfferCalc</a>
+    <a class="navbar-brand" href="{{ url_for('home_page') }}"><img src="/static/img/SE_Logo_White_RGB.svg" width="30%">  OfferCalc</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -29,7 +29,7 @@
           <a class="nav-link" href="{{ url_for('home_page') }}">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('project_page') }}">Project Info</a>
+          <a class="nav-link" href="http://localhost:5000/project?filepath=uploads%5Cxml-example.xml">Project Info</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('costs_page') }}">Costs</a>

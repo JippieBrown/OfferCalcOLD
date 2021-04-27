@@ -1,12 +1,13 @@
 from OfferGUI import app, db
 from flask import render_template, redirect, request, url_for, flash, get_flashed_messages, send_from_directory
 from OfferGUI.models import User, staff_costs
-from OfferGUI.xmltool import xml_reader
-from OfferGUI.forms import RegisterForm, LoginForm
+import OfferGUI.xmltool
+from OfferGUI.forms import RegisterForm, LoginForm, ProjectForm
 from flask_login import login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 import os
 import xmltodict
+import json
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
 def home_page():
@@ -14,26 +15,27 @@ def home_page():
 
 @app.route('/uploader', methods = ['POST'])
 def upload_file():
-    item = {}
     if request.method == 'POST':
         f = request.files['file']
         f.save(os.path.join(app.config['UPLOAD_PATH'],secure_filename(f.filename)))
         filepath = os.path.join(app.config['UPLOAD_PATH'],secure_filename(f.filename))
-        print('file uploaded')
-        return redirect(url_for('project_page', filepath=filepath)) 
+        # print('file uploaded')
+        return redirect(url_for('project_page', filepath=filepath))
 
 @app.route('/project', methods=['GET', 'POST'])
 @login_required
 def project_page():
     if request.method == 'GET':
         filepath = request.args.get('filepath', None)
-        # print(filepath)
         with open(filepath) as fd:
             doc = xmltodict.parse(fd.read())
-        item = doc['form1']['Projektland']
-        os.remove(filepath)
-        print('file removed')
-        return render_template('project_info.html', item=item)
+        item = doc['form1']
+        # os.remove(filepath)
+        # print('file removed')
+        form = ProjectForm()
+        return render_template('project_info.html', xml=item, form=form)
+    # if form.validate_on_submit():---------->
+
 
 @app.route('/costs', methods=['POST', 'GET'])
 @login_required

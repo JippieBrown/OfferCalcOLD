@@ -6,6 +6,222 @@ Project Info
 
 {% block content %}
 
-{{item}}
+<body>
+    <div class="row" style="margin-top:20px; margin-left:20px; margin-right:-20px">
+        <div class="col-5">
+            <!-- <br> -->
+            <h3>Project head</h3>
+            <table class="table table-dark">
+                <tbody>
+                    <tr>
+                        <th scope="row">{{ form.project_name.label() }}</th>
+                        <td>{{ form.customer(class="form-control", value= xml['ProjektName'] )}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.project_manager_dept.label() }}</th>
+                        <td>{{ form.customer(class="form-control",
+                            value= xml['Vorname'] + " " + xml['Nachname'] + " / " + xml['Abteilung'] )}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.order_indicator.label() }}</th>
+                        <td>{{ form.order_indicator(class="form-control" )}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.site.label() }}</th>
+                        <td>{{ form.customer(class="form-control", value= xml['TextField5'] + ", " + xml['Projektland']) }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Customer</th>
+                        <td>{{ form.customer(class="form-control")}}</td>
+                    </tr>
+                    <!-- <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+        <div class="col-3">
+            <!-- <br> -->
+            <h3>Further information</h3>
+            <table class="table table-dark">
+                <tbody>
+                    <tr>
+                        <th scope="row">{{ form.calc_for.label() }}</th>
+                        <td>{{xml['Angebot']}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Date</th>
+                        <td>{{ form.date(class="form-control")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.cost_determination.label()}}</th>
+                        <td>{{ form.cost_determination(class="form-control")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.editor.label() }}</th>
+                        <td>{{ form.editor(class="form-control") }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Project ID</th>
+                        <td>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">ID</div>
+                                </div>
+                                <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Date">
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top:20px; margin-left:20px; margin-right:-20px">
+        <div class="col-3">
+            <!-- <br> -->
+            <h3>Plant information</h3>
+            <table class="table table-dark">
+                <tbody>
+                    <tr>
+                        <th scope="row">Plant type</th>
+                        <td>{{xml['Anlagentyp']}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Busbar</th>
+                        <td>{{xml['SaS']}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Number of bays</th>
+                        <td>{{xml['Anzahl']}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.gascomp_empty.label() }}</th>
+                        <td>{{ form.gascomp_empty(class="form-control",
+                            placeholder="")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.gascomp_pref.label() }}</th>
+                        <td>{{ form.gascomp_pref(class="form-control",
+                            placeholder="")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.assembly_indoor.label() }}</th>
+                        <td>{{ form.assembly_indoor(class="form-control",
+                            placeholder="")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.assembly_outdoor.label() }}</th>
+                        <td>{{ form.assembly_outdoor(class="form-control",
+                            placeholder="")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.harting_plugs.label() }}</th>
+                        <td>{{ form.harting_plugs(class="form-control",
+                            placeholder="")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.ditec_seals.label() }}</th>
+                        <td>{{ form.ditec_seals(class="form-control",
+                            placeholder="")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.steel_supp_s.label() }}</th>
+                        <td>{{ form.steel_supp_s(class="form-control",
+                            placeholder="")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.steel_supp_m.label() }}</th>
+                        <td>{{ form.steel_supp_m(class="form-control",
+                            placeholder="")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.steel_supp_l.label() }}</th>
+                        <td>{{ form.steel_supp_l(class="form-control",
+                            placeholder="")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.drives.label() }}</th>
+                        <td>{{ form.drives(class="form-control",
+                            placeholder="")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.core_drilling.label() }}</th>
+                        <td>{{ form.core_drilling(class="form-control",
+                            placeholder="")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.converter.label() }}</th>
+                        <td>{{ form.converter(class="form-control",
+                            placeholder="")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.outdoor_bushing.label() }}</th>
+                        <td>{{ form.outdoor_bushing(class="form-control",
+                            placeholder="")}}</td>
+                    </tr>
+                    <!-- <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                    </tr> -->
+                </tbody>
+            </table>
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+        </div>
+        <div class="col-3">
+            <!-- <br> -->
+            <h3>General information</h3>
+            <table class="table table-dark">
+                <tbody>
+                    <tr>
+                        <th scope="row">{{ form.workdays_per_week.label() }}</th>
+                        <td>{{ form.workdays_per_week(class="form-control")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.hours_per_day.label() }}</th>
+                        <td>{{ form.hours_per_day(class="form-control")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.number_of_site_manager.label() }}</th>
+                        <td>{{ form.number_of_site_manager(class="form-control")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.number_of_commissioning_engineers.label() }}</th>
+                        <td>{{ form.number_of_commissioning_engineers(class="form-control")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.transport_weeks_tools.label() }}</th>
+                        <td>{{ form.transport_weeks_tools(class="form-control")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.transport_weeks_HVTE.label() }}</th>
+                        <td>{{ form.transport_weeks_HVTE(class="form-control")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.arrival_departure_days.label() }}</th>
+                        <td>{{ form.arrival_departure_days(class="form-control")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.country_factor.label() }}</th>
+                        <td>{{ form.country_factor(class="form-control")}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ form.customer_training_days.label() }}</th>
+                        <td>{{ form.customer_training_days(class="form-control")}}</td>
+                    </tr>
+                    <!-- <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
 
 {% endblock %}
