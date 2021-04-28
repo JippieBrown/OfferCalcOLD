@@ -36,12 +36,14 @@ class ProjectForm(FlaskForm):
     site = StringField(label='Site')
     customer = StringField(label='Customer')
     ## further info
-    calc_for = StringField(label='Calculation for')
+    calc_for = SelectField(u'Calculation for', coerce=str)#choices are in routes.py
     date = DateField(label='Date', format='%Y-%m-%d')
     cost_determination = DateField(label='Cost determination until', format='%Y-%d-%m')
-    editor = SelectField(u'Editor', choices=[('choose...'),('Kermer'), ('Hesse'), ('Tran')])
+    editor = SelectField(u'Editor', coerce=str)
     project_id = StringField(label='Project ID')
     ## plant info
+    plant_type = SelectField(u'Plant type', coerce=str)
+    busbar = SelectField(u'Busbar', coerce=str)
     gascomp_empty = StringField(label='Gas compartments (empty)')
     gascomp_pref = StringField(label='Gas compartments (prefilled)')
     assembly_indoor = StringField(label='Assembly (indoor)')

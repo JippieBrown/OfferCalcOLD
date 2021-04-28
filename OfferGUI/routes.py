@@ -1,9 +1,9 @@
 from OfferGUI import app, db
 from flask import render_template, redirect, request, url_for, flash, get_flashed_messages, send_from_directory
-from OfferGUI.models import User, staff_costs
+from OfferGUI.models import User, staff_costs, dropdown_elements
 import OfferGUI.xmltool
 from OfferGUI.forms import RegisterForm, LoginForm, ProjectForm
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
 import os
 import xmltodict
@@ -26,13 +26,26 @@ def upload_file():
 @login_required
 def project_page():
     if request.method == 'GET':
-        filepath = request.args.get('filepath', None)
+        #getting filepath from upload_file()
+        filepath = request.args.get('filepath')
+        #open xml-file in folder uploads
         with open(filepath) as fd:
             doc = xmltodict.parse(fd.read())
         item = doc['form1']
+        #reading from database
+        db_user = User.query.with_entities(User.username, User.username).all()
+        db_plant_type = dropdown_elements.query.with_entities(dropdown_elements.plant_type, dropdown_elements.plant_type).all()
+        db_busbar = dropdown_elements.query.with_entities(dropdown_elements.busbar, dropdown_elements.busbar).all()
         # os.remove(filepath)
         # print('file removed')
         form = ProjectForm()
+        form.calc_for.choices = [item['Angebot'],('PRO GIS'),('DE TM'), ('SYS COC'), ('RC')]
+        form.editor.choices = [k for k in db_user]
+        form.editor.data = current_user.username
+        form.plant_type.choices = [k for k in db_plant_type]
+        form.plant_type.data = item['Anlagentyp']
+        form.busbar.choices = [k for k in db_busbar]
+        form.busbar.data = item['SaS']
         return render_template('project_info.html', xml=item, form=form)
     # if form.validate_on_submit():---------->
 
