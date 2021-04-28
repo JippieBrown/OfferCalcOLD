@@ -33,9 +33,10 @@ class staff_costs(db.Model):
         return f'staff_costs {self.name}'
 
 class dropdown_elements(db.Model):
-    # id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)
     plant_type = db.Column(db.String())
-    busbar = db.Column(db.String(), nullable=False)
+    busbar = db.Column(db.String())
+    calc_for = db.Column(db.String())
     def __repr__(self):
         return f'staff_costs {self.name}'
 

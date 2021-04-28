@@ -25,27 +25,44 @@ def upload_file():
 @app.route('/project', methods=['GET', 'POST'])
 @login_required
 def project_page():
+    # class from from models-py
+    dde = dropdown_elements
     if request.method == 'GET':
-        #getting filepath from upload_file()
+        # getting filepath from upload_file()
         filepath = request.args.get('filepath')
-        #open xml-file in folder uploads
+        # open xml-file in folder uploads
         with open(filepath) as fd:
             doc = xmltodict.parse(fd.read())
         item = doc['form1']
-        #reading from database
+        # class from from models.py
+        dde = dropdown_elements
+        # reading from database
         db_user = User.query.with_entities(User.username, User.username).all()
-        db_plant_type = dropdown_elements.query.with_entities(dropdown_elements.plant_type, dropdown_elements.plant_type).all()
-        db_busbar = dropdown_elements.query.with_entities(dropdown_elements.busbar, dropdown_elements.busbar).all()
+        db_plant_type = dde.query.with_entities(dde.plant_type, dde.plant_type).all()
+        db_busbar = dde.query.with_entities(dde.busbar, dde.busbar).filter(dde.busbar!="NULL")
+        db_calc_for = dde.query.with_entities(dde.calc_for, dde.calc_for).filter(dde.calc_for!="NULL")
+
         # os.remove(filepath)
         # print('file removed')
         form = ProjectForm()
-        form.calc_for.choices = [item['Angebot'],('PRO GIS'),('DE TM'), ('SYS COC'), ('RC')]
+
+        # setting choices (used in forms.py-->class ProjectForm)
+        form.calc_for.choices = [k for k in db_calc_for]
         form.editor.choices = [k for k in db_user]
-        form.editor.data = current_user.username
         form.plant_type.choices = [k for k in db_plant_type]
-        form.plant_type.data = item['Anlagentyp']
         form.busbar.choices = [k for k in db_busbar]
+
+        # setting data by imported xml-file (used in forms.py-->class ProjectForm)
+        form.project_name.data = item['ProjektName']
+        form.project_manager_dept.data = item['Vorname'] + " " + item['Nachname'] + " / " + item['Abteilung']
+        form.site.data = item['TextField5'] + ", " + item['Projektland']
+        form.calc_for.data = item['Angebot']
+        form.number_of_bays.data = item['Anzahl']
+        form.plant_type.data = item['Anlagentyp']
+        form.site_manager.data = item['Block1']['Bauleiter']
+        form.editor.data = current_user.username
         form.busbar.data = item['SaS']
+
         return render_template('project_info.html', xml=item, form=form)
     # if form.validate_on_submit():---------->
 

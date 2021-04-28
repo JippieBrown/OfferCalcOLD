@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, SelectField, IntegerField, BooleanField
 from wtforms.fields.html5 import DateField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
 from OfferGUI.models import User
@@ -29,6 +29,10 @@ class LoginForm(FlaskForm):
     submit = SubmitField(label='Login')
 
 class ProjectForm(FlaskForm):
+    '''
+    #choices (represented by coerce)of selectfields are in routes.py--> project_page
+
+    '''
     ## project info
     project_name = StringField(label='Project name')
     project_manager_dept = StringField(label='Project manager / department')
@@ -36,7 +40,7 @@ class ProjectForm(FlaskForm):
     site = StringField(label='Site')
     customer = StringField(label='Customer')
     ## further info
-    calc_for = SelectField(u'Calculation for', coerce=str)#choices are in routes.py
+    calc_for = SelectField(u'Calculation for', coerce=str)
     date = DateField(label='Date', format='%Y-%m-%d')
     cost_determination = DateField(label='Cost determination until', format='%Y-%d-%m')
     editor = SelectField(u'Editor', coerce=str)
@@ -44,6 +48,7 @@ class ProjectForm(FlaskForm):
     ## plant info
     plant_type = SelectField(u'Plant type', coerce=str)
     busbar = SelectField(u'Busbar', coerce=str)
+    number_of_bays = IntegerField(label='Number of bays')
     gascomp_empty = StringField(label='Gas compartments (empty)')
     gascomp_pref = StringField(label='Gas compartments (prefilled)')
     assembly_indoor = StringField(label='Assembly (indoor)')
@@ -67,5 +72,7 @@ class ProjectForm(FlaskForm):
     arrival_departure_days = IntegerField(label='Arrival and departure days')
     country_factor = IntegerField(label='Country factor')
     customer_training_days = IntegerField(label='Customer training days')
+    # request info
+    site_manager = BooleanField(label='Site manager')
     # = StringField(label='')
     submit = SubmitField(label='Save')
