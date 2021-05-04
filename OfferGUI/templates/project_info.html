@@ -9,7 +9,9 @@ Project Info
 <body>
     <form method="POST">
         {{ form.hidden_tag() }}
-        {{ save_form.submit(class="btn btn-lg btn-block btn-primary") }}
+            <!-- <button type="submit" name="SaveInDatabase" value="SaveInDatabase"
+                class="btn btn-outline btn-primary">Save</button> -->
+            {{ save_form.submit(class="btn btn-lg btn-block btn-primary") }}
 
         <div class="row" style="margin-top:20px; margin-left:20px; margin-right:-20px">
             <div class="col-5">

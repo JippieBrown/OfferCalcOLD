@@ -1,23 +1,99 @@
 from OfferGUI import app, db
 from flask import render_template, redirect, request, url_for, flash, get_flashed_messages
-from OfferGUI.models import User, staff_costs, dropdown_elements, project_info
+from OfferGUI.models import User, staff_costs, tool_costs, dropdown_elements, project_info, static_staff_costs
 import OfferGUI.xmltool
-from OfferGUI.forms import RegisterForm, LoginForm, ProjectForm, SaveForm
+from OfferGUI.forms import RegisterForm, LoginForm, ProjectForm, SaveForm, CostForm
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
 import os
 import xmltodict
-from flask_table import Table, Col
-def addRow():
-    print('test')
-    item_to_create = staff_costs(Service='test')
+# from flask_table import Table, Col
+
+def addRow(table):
+    item_to_create = table()
     db.session.add(item_to_create)
     db.session.commit()
-def delRow():
-    print(staff_costs.query.filter_by(id))
-    # item_to_create = staff_costs(Service='test')
-    # db.session.remove
-    # db.session.commit()
+
+def delRow(table):
+    last_id = len(table.query.all())
+    last_row = table.query.get(last_id)
+    if last_id >= 1:
+        db.session.delete(last_row)
+        db.session.commit()
+    else:
+        flash(f"Table empty!", category='warning')
+
+@app.route('/costs', methods=['POST', 'GET'])
+@login_required
+def costs_page():
+    form = CostForm()
+    sc = staff_costs
+    static_sc = static_staff_costs
+    #reading from database
+    db_static_service = static_sc.query.with_entities(static_sc.Service, 
+                                                      static_sc.Service).filter(
+                                                      static_sc.Service!="NULL")
+    db_static_unitprice = static_sc.query.with_entities(static_sc.price_reg_inquiry_RC, 
+                                                        static_sc.price_reg_inquiry_RC).filter(
+                                                        static_sc.price_reg_inquiry_RC!="NULL")
+    #setting choices
+    form.service.choices = [k for k in db_static_service]
+    form.unitprice.data = 100
+    staff_items = staff_costs.query.all()
+    tool_items = tool_costs.query.all()
+
+
+    if request.method == 'POST':
+        if request.form.get('StaffCostPlusBtn'):
+            addRow(staff_costs)
+        elif request.form.get('StaffCostMinusBtn'):     
+            delRow(staff_costs)
+        elif request.form.get('ToolCostPlusBtn'):
+            addRow(tool_costs)
+        elif request.form.get('ToolCostMinusBtn'):
+            delRow(tool_costs)        
+        return redirect(url_for('costs_page'))
+    
+    return render_template('costs.html', form=form, staff_items=staff_items, tool_items=tool_items)
+
+@app.route('/register', methods=['POST', 'GET'])
+def register_page():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        user_to_create = User(username=form.username.data,
+                              email_address=form.email_address.data,
+                              password=form.password1.data)
+        db.session.add(user_to_create)
+        db.session.commit()
+        login_user(user_to_create)
+        flash(f"Account created successfully! You are now logged in as {user_to_create.username}", category='success')
+        return redirect(url_for('home_page'))
+    if form.errors != {}: #If there are not errors from the validations
+        for err_msg in form.errors.values():
+            flash(f'There was an error with creating a user: {err_msg}', category='danger')
+    return render_template('register.html', form=form)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login_page():
+    form = LoginForm()
+    if form.validate_on_submit():
+        attempted_user = User.query.filter_by(username=form.username.data).first()
+        if attempted_user and attempted_user.check_password_correction(
+            attempted_password=form.password.data):
+            login_user(attempted_user)
+            flash(f'Success! You are logged in as: {attempted_user.username}', category='success')
+            return redirect(url_for('home_page'))
+        else:
+            flash(f'User and/or Password wrong! Try again', category='success')
+
+    return render_template('login.html', form=form)
+
+@app.route('/logout', methods=['GET', 'POST'])
+def logout_page():
+    logout_user()
+    flash("You have been logged out!", category='info')
+    return redirect(url_for("home_page"))
+
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
 def home_page():
@@ -84,6 +160,7 @@ def project_page():
         form.tools.data = item['Block2']['Werkzeug_2']
 
         return render_template('project_info.html', form=form, save_form=save_form)
+    # if request.method == 'POST':
     if save_form.validate_on_submit():
         # project_info_col = [attr for attr in dir(project_info) 
         #                             if not attr.startswith("_") 
@@ -91,18 +168,18 @@ def project_page():
         project_output = [request.form[key] for key in request.form.keys()]
         print(project_output)
         project_infos = project_info(project_name=project_output[2],
-                                     project_manager_dept=project_output[3],
-                                     order_indicator=project_output[4],
-                                     site=project_output[5],
-                                     customer=project_output[6],
-                                     calc_for=project_output[7],
-                                     date=project_output[8],
-                                     cost_determination=project_output[9],
-                                     editor=project_output[10],
-                                     project_id=project_output[11],
-                                     plant_type=project_output[12],
-                                     busbar=project_output[13],
-                                     number_of_bays=project_output[14])
+                                    project_manager_dept=project_output[3],
+                                    order_indicator=project_output[4],
+                                    site=project_output[5],
+                                    customer=project_output[6],
+                                    calc_for=project_output[7],
+                                    date=project_output[8],
+                                    cost_determination=project_output[9],
+                                    editor=project_output[10],
+                                    project_id=project_output[11],
+                                    plant_type=project_output[12],
+                                    busbar=project_output[13],
+                                    number_of_bays=project_output[14])
         db.session.add(project_infos)
         db.session.commit()
         flash(f"Data from project page stored in database!", category='success')
@@ -117,61 +194,10 @@ def project_page():
         #     project_infos = project_info.__dict__.keys
 
         return redirect(url_for('home_page'))
-    return render_template('project_info.html', form=form, save_form=save_form)
-
-@app.route('/costs', methods=['POST', 'GET'])
-@login_required
-def costs_page():
-    items = staff_costs.query.all()
-    if request.method == 'POST':
-        if request.form.get('StaffCostPlusBtn'):
-            print('Plus')
-            addRow()
-        elif request.form.get('StaffCostMinusBtn'):     
-            print('Minus')
-            delRow()
-            return redirect(url_for('costs_page'))
-    
-    return render_template('costs.html', items=items)
-
-@app.route('/register', methods=['POST', 'GET'])
-def register_page():
-    form = RegisterForm()
-    if form.validate_on_submit():
-        user_to_create = User(username=form.username.data,
-                              email_address=form.email_address.data,
-                              password=form.password1.data)
-        db.session.add(user_to_create)
-        db.session.commit()
-        login_user(user_to_create)
-        flash(f"Account created successfully! You are now logged in as {user_to_create.username}", category='success')
-        return redirect(url_for('home_page'))
-    if form.errors != {}: #If there are not errors from the validations
+    if save_form.errors != {}: #If there are not errors from the validations
         for err_msg in form.errors.values():
             flash(f'There was an error with creating a user: {err_msg}', category='danger')
-    return render_template('register.html', form=form)
-
-@app.route('/login', methods=['GET', 'POST'])
-def login_page():
-    form = LoginForm()
-    if form.validate_on_submit():
-        attempted_user = User.query.filter_by(username=form.username.data).first()
-        if attempted_user and attempted_user.check_password_correction(
-            attempted_password=form.password.data):
-            login_user(attempted_user)
-            flash(f'Success! You are logged in as: {attempted_user.username}', category='success')
-            return redirect(url_for('home_page'))
-        else:
-            flash(f'User and/or Password wrong! Try again', category='success')
-
-    return render_template('login.html', form=form)
-
-@app.route('/logout', methods=['GET', 'POST'])
-def logout_page():
-    logout_user()
-    flash("You have been logged out!", category='info')
-    return redirect(url_for("home_page"))
-
+    return render_template('project_info.html', form=form, save_form=save_form)
 
 
 

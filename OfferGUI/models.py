@@ -25,8 +25,24 @@ class staff_costs(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     Service = db.Column(db.String(length=30), nullable=False, unique=True)
     UnitPrice = db.Column(db.Integer(), nullable=False)
-    RentalMode = db.Column(db.Integer(), nullable=False)
-    RentalPeriod = db.Column(db.Integer(), nullable=False)
+    RentalMode = db.Column(db.String(), nullable=False)
+    RentalPeriod = db.Column(db.String(), nullable=False)
+    Remark = db.Column(db.String(length=60), nullable=False)
+    Sum = db.Column(db.Integer(), nullable=False)
+    # def __repr__(self):
+    #     return f'staff_costs {self.name}'
+    
+class static_staff_costs(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    Service = db.Column(db.String())
+    price_reg_inquiry_RC = db.Column(db.String())
+
+class tool_costs(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    Service = db.Column(db.String(length=30), nullable=False, unique=True)
+    UnitPrice = db.Column(db.Integer(), nullable=False)
+    RentalMode = db.Column(db.String(), nullable=False)
+    RentalPeriod = db.Column(db.String(), nullable=False)
     Remark = db.Column(db.String(length=60), nullable=False)
     Sum = db.Column(db.Integer(), nullable=False)
     # def __repr__(self):
@@ -44,7 +60,7 @@ class dropdown_elements(db.Model):
 
 class project_info(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    project_name = db.Column(db.String())
+    project_name = db.Column(db.String(), unique=True)
     project_manager_dept = db.Column(db.String())
     order_indicator = db.Column(db.String())
     site = db.Column(db.String())

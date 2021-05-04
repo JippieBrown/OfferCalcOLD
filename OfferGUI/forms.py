@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField, IntegerField
 from wtforms.fields.html5 import DateField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError, NumberRange
-from OfferGUI.models import User
+from OfferGUI.models import User, project_info
 
 class RegisterForm(FlaskForm):
 
@@ -33,6 +33,16 @@ class ProjectForm(FlaskForm):
     #choices (represented by coerce) of selectfields in routes.py --> project_page
 
     '''
+    def validate_project_name(self, project_name_to_check):
+        project_name = project_info.query.filter_by(project_name=project_name_to_check.data).first()
+        if project_name:
+            raise ValidationError('Project name already exists!')
+
+    def validate_project_id(self, project_id_to_check):
+        project_id = project_info.query.filter_by(project_id=project_id_to_check.data).first()
+        if project_id:
+            raise ValidationError('Project ID already exists!')
+
     ## project info
     project_name = StringField(label='Project name')
     project_manager_dept = StringField(label='Project manager / department')
@@ -40,7 +50,7 @@ class ProjectForm(FlaskForm):
     site = StringField(label='Site')
     customer = StringField(label='Customer')
     ## further info
-    calc_for = SelectField(u'Calculation for', coerce=str)
+    calc_for = SelectField(u'Calculation for', coerce=str, validators=[DataRequired()])
     date = DateField(label='Date', format='%Y-%m-%d')
     cost_determination = DateField(label='Cost determination until', format='%Y-%d-%m')
     editor = SelectField(u'Editor', coerce=str)
@@ -87,9 +97,24 @@ class ProjectForm(FlaskForm):
     protect_class_outdoor = SelectField(u'Protection class outdoor', coerce=str)
     earthing = SelectField(u'Earthing', coerce=str)
     sec_wiring = SelectField(u'Secondary wiring', coerce=str)
-    
-    # = StringField(label='')
     submit = SubmitField(label='Save')
     
 class SaveForm(FlaskForm):
+    def validate_project_name(self, project_name_to_check):
+        project_name = project_info.query.filter_by(project_name=project_name_to_check.data).first()
+        if project_name:
+            raise ValidationError('Project name already exists!')
+
+    def validate_project_id(self, project_id_to_check):
+        project_id = project_info.query.filter_by(project_id=project_id_to_check.data).first()
+        if project_id:
+            raise ValidationError('Project ID already exists!')
+    # project_name = StringField(label='Project name')
+    # project_id = StringField(label='Project ID', validators=[DataRequired()])
+
     submit = SubmitField(label='Save project!')
+
+class CostForm(FlaskForm):
+
+    service = SelectField(u'Service', coerce=str)
+    unitprice = IntegerField(label='Unit price')

@@ -10,8 +10,10 @@ Costs
         <div class="col-8">
             <table class="table table-hover table-dark">
                 <h3>Staff costs</h3>
-                <button type="submit" name="StaffCostPlusBtn" value="StaffCostPlusBtn" class="btn btn-outline btn-success">+</button>
-                <button type="submit" name="StaffCostMinusBtn" value="StaffCostMinusBtn" class="btn btn-outline btn-danger">-</button>
+                <button type="submit" name="StaffCostPlusBtn" value="StaffCostPlusBtn"
+                    class="btn btn-outline btn-success">+</button>
+                <button type="submit" name="StaffCostMinusBtn" value="StaffCostMinusBtn"
+                    class="btn btn-outline btn-danger">-</button>
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -25,32 +27,24 @@ Costs
                 </thead>
                 <tbody>
                     <td>
-                        {% for item in items %}
+                        {% for item in staff_items %}
                         <tr>
                             <td>{{ item.id }}</td>
-                            <td>{{ item.Service }}</td>
+                            <td>{{ form.service(class="form-control") }}</td>
+                            <!-- <td>{{ form.service(class="form-control") }}</td> -->
                         </tr>
                         {% endfor %}
                     </td>
             </table>
-
-
-
-
-
-
-
-
-
-
-
             <br /><br />
             <table class="table table-hover table-dark">
                 <h3>Tools costs</h3>
                 <form action='/'>
-                <button type="submit" name="submit_a" value="submit_a" class="btn btn-outline btn-success">+</button>
-            </form>
-                <button class="btn btn-outline btn-danger">-</button>
+                    <button type="submit" name="ToolCostPlusBtn" value="ToolCostPlusBtn"
+                        class="btn btn-outline btn-success">+</button>
+                    <button type="submit" name="ToolCostMinusBtn" value="ToolCostMinusBtn"
+                        class="btn btn-outline btn-danger">-</button>
+                </form>
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -65,17 +59,17 @@ Costs
                 <tbody>
 
                     <td>
-                        <!-- {% for item in items %}    
+                        {% for item in tool_items %}    
                         <tr>
                             <td>{{ item.id }}</td>
-                            <td>{{ item.Service }}</td>
-                            <td>{{ item.UnitPrice }}</td>
+                            <td>{{ form.service(class="form-control") }}</td>
+                            <!-- <td>{{ item.UnitPrice }}</td>
                             <td>{{ item.RentalMode }}</td>
                             <td>{{ item.RentalPeriod }}</td>
                             <td>{{ item.Remark }}</td>
-                            <td>{{ item.Sum }}</td>
+                            <td>{{ item.Sum }}</td> -->
                         </tr>
-                    {% endfor %} -->
+                    {% endfor %}
                     </td>
             </table>
             <br /><br />
