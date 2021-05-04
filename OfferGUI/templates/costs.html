@@ -1,63 +1,71 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Costs
+Costs
 {% endblock %}
 
 {% block content %}
-
-<div class="row" style="margin-top:20px; margin-left:20px">
-    <div class="col-8">
-        <table class="table table-hover table-dark">
-            <h3>Staff costs</h3>
-            <button class="btn btn-outline btn-success">+</button>
-            <button class="btn btn-outline btn-danger">-</button>
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Service</th>
-                    <th scope="col">Unit price</th>
-                    <th scope="col">Rental mode</th>
-                    <th scope="col">Rental period</th>
-                    <th scope="col">Remark</th>
-                    <th scope="col">Sum</th>
-                </tr>
-            </thead>
-            <tbody>
-                <td>
-                    <!-- {% for item in items %}    
+<form method="POST" class="form-register" style="color:white">
+    <div class="row" style="margin-top:20px; margin-left:20px">
+        <div class="col-8">
+            <table class="table table-hover table-dark">
+                <h3>Staff costs</h3>
+                <button type="submit" name="StaffCostPlusBtn" value="StaffCostPlusBtn" class="btn btn-outline btn-success">+</button>
+                <button type="submit" name="StaffCostMinusBtn" value="StaffCostMinusBtn" class="btn btn-outline btn-danger">-</button>
+                <thead>
                     <tr>
-                        <td>{{ item.id }}</td>
-                        <td>{{ item.Service }}</td>
-                        <td>{{ item.UnitPrice }}</td>
-                        <td>{{ item.RentalMode }}</td>
-                        <td>{{ item.RentalPeriod }}</td>
-                        <td>{{ item.Remark }}</td>
-                        <td>{{ item.Sum }}</td>
+                        <th scope="col">ID</th>
+                        <th scope="col">Service</th>
+                        <th scope="col">Unit price</th>
+                        <th scope="col">Rental mode</th>
+                        <th scope="col">Rental period</th>
+                        <th scope="col">Remark</th>
+                        <th scope="col">Sum</th>
                     </tr>
-                {% endfor %} -->
-                </td>
-        </table>
-        <br /><br />
-        <table class="table table-hover table-dark">
-            <h3>Tools costs</h3>
-            <button class="btn btn-outline btn-success">+</button>
-            <button class="btn btn-outline btn-danger">-</button>
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Service</th>
-                    <th scope="col">Unit price</th>
-                    <th scope="col">Rental mode</th>
-                    <th scope="col">Rental period</th>
-                    <th scope="col">Remark</th>
-                    <th scope="col">Sum</th>
-                </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
+                    <td>
+                        {% for item in items %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.Service }}</td>
+                        </tr>
+                        {% endfor %}
+                    </td>
+            </table>
 
-                <td>
-                    <!-- {% for item in items %}    
+
+
+
+
+
+
+
+
+
+
+            <br /><br />
+            <table class="table table-hover table-dark">
+                <h3>Tools costs</h3>
+                <form action='/'>
+                <button type="submit" name="submit_a" value="submit_a" class="btn btn-outline btn-success">+</button>
+            </form>
+                <button class="btn btn-outline btn-danger">-</button>
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Service</th>
+                        <th scope="col">Unit price</th>
+                        <th scope="col">Rental mode</th>
+                        <th scope="col">Rental period</th>
+                        <th scope="col">Remark</th>
+                        <th scope="col">Sum</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <td>
+                        <!-- {% for item in items %}    
                         <tr>
                             <td>{{ item.id }}</td>
                             <td>{{ item.Service }}</td>
@@ -68,28 +76,28 @@
                             <td>{{ item.Sum }}</td>
                         </tr>
                     {% endfor %} -->
-                </td>
-        </table>
-        <br /><br />
-        <table class="table table-hover table-dark">
-            <h3>Tools costs</h3>
-            <button class="btn btn-outline btn-success">+</button>
-            <button class="btn btn-outline btn-danger">-</button>
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Service</th>
-                    <th scope="col">Unit price</th>
-                    <th scope="col">Rental mode</th>
-                    <th scope="col">Rental period</th>
-                    <th scope="col">Remark</th>
-                    <th scope="col">Sum</th>
-                </tr>
-            </thead>
-            <tbody>
+                    </td>
+            </table>
+            <br /><br />
+            <table class="table table-hover table-dark">
+                <h3>Tools costs</h3>
+                <button class="btn btn-outline btn-success">+</button>
+                <button class="btn btn-outline btn-danger">-</button>
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Service</th>
+                        <th scope="col">Unit price</th>
+                        <th scope="col">Rental mode</th>
+                        <th scope="col">Rental period</th>
+                        <th scope="col">Remark</th>
+                        <th scope="col">Sum</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                <td>
-                    <!-- {% for item in items %}    
+                    <td>
+                        <!-- {% for item in items %}    
                     <tr>
                         <td>{{ item.id }}</td>
                         <td>{{ item.Service }}</td>
@@ -100,12 +108,11 @@
                         <td>{{ item.Sum }}</td>
                     </tr>
                 {% endfor %} -->
-                </td>
-        </table>
+                    </td>
+            </table>
+        </div>
     </div>
-</div>
-
+</form>
 
 
 {% endblock %}
-

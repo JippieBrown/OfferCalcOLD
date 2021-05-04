@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form1>
+	<Vorname> Herbert</Vorname>
+	<Nachname>Freundorfer </Nachname>
+	<Abteilung> SE T PS EU EE AT</Abteilung>
+	<ProjektName>UW-Wilten-Kopietest</ProjektName>
+	<Projektland>Austria</Projektland>
+	<TextField5>Innsbruck</TextField5>
+	<DateField1>2021-03-16</DateField1>
+	<Anlagentyp>8DN8-5 (GIS)</Anlagentyp>
+	<Gueltigkeit>2021</Gueltigkeit>
+	<Schutzkl_1>Indoor Normal</Schutzkl_1>
+	<Schutzkl_2>-</Schutzkl_2>
+	<Angebot>RC </Angebot>
+	<SaS>Double</SaS>
+	<Anzahl>11</Anzahl>
+	<Block1>
+		<Bauleiter>No</Bauleiter>
+		<IBSler>Yes </IBSler>
+		<MPD_2>Yes</MPD_2>
+		<DropDownlist11>German</DropDownlist11>
+	</Block1>
+	<Block2>
+		<Werkzeug_2>Yes </Werkzeug_2>
+		<HV-Test_2>Yes</HV-Test_2>
+	</Block2>
+	<Block3>
+		<Transport_2>Yes</Transport_2>
+	</Block3>
+	<Block4>
+		<Sekundaer_2>Separate LCC</Sekundaer_2>
+		<Felder_Zahl1>11</Felder_Zahl1>
+		<Erdung_2>No</Erdung_2>
+	</Block4>
+	<Block5>
+		<DropDownList28>Yes- PD-Measurment: UHF</DropDownList28>
+		<PSD2>No</PSD2>
+		<ACTAS2>No</ACTAS2>
+		<LIBO_2>2</LIBO_2>
+		<Training_2>5</Training_2>
+	</Block5>
+	<Block6>
+		<Hallenkran_2>Yes</Hallenkran_2>
+		<DC_versorgung_2>Yes</DC_versorgung_2>
+		<HS_Kabel_2>Pfisterer</HS_Kabel_2>
+		<Kabelsteckbuchsen>6</Kabelsteckbuchsen>
+		<Bemerkung>zu Pkt. 4.: gemeint ist, dass die IBS auch die GOS beinhaltet</Bemerkung>
+		<DateField2>2021-04-09</DateField2>
+		<DateField3>2021-12-01</DateField3>
+	</Block6>
+</form1>

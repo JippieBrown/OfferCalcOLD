@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField, IntegerField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, SelectField, IntegerField
 from wtforms.fields.html5 import DateField
-from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
+from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError, NumberRange
 from OfferGUI.models import User
 
 class RegisterForm(FlaskForm):
@@ -30,7 +30,7 @@ class LoginForm(FlaskForm):
 
 class ProjectForm(FlaskForm):
     '''
-    #choices (represented by coerce)of selectfields are in routes.py--> project_page
+    #choices (represented by coerce) of selectfields in routes.py --> project_page
 
     '''
     ## project info
@@ -44,7 +44,7 @@ class ProjectForm(FlaskForm):
     date = DateField(label='Date', format='%Y-%m-%d')
     cost_determination = DateField(label='Cost determination until', format='%Y-%d-%m')
     editor = SelectField(u'Editor', coerce=str)
-    project_id = StringField(label='Project ID')
+    project_id = StringField(label='Project ID', validators=[DataRequired()])
     ## plant info
     plant_type = SelectField(u'Plant type', coerce=str)
     busbar = SelectField(u'Busbar', coerce=str)
@@ -72,7 +72,24 @@ class ProjectForm(FlaskForm):
     arrival_departure_days = IntegerField(label='Arrival and departure days')
     country_factor = IntegerField(label='Country factor')
     customer_training_days = IntegerField(label='Customer training days')
-    # request info
-    site_manager = BooleanField(label='Site manager')
+    # inquiry info
+    site_management = SelectField(u'Site management', coerce=str)
+    commissioning = SelectField(u'Commissioning', coerce=str)
+    manpower = SelectField(u'Manpower diagramm', coerce=str)
+    manpower_language = SelectField(u'Language', coerce=str)
+    tools = SelectField(u'Tools', coerce=str)
+    psd_comm = SelectField(u'PSD Commissioning', coerce=str)
+    hvt_pd_check = SelectField(u'HV-Test / PD-measurement', coerce=str)
+    actas = SelectField(u'ACTAS', coerce=str)
+    transports = SelectField(u'Transports', coerce=str)
+    indoor_crane = SelectField(u'Indoor crane', coerce=str)
+    protect_class_indoor= SelectField(u'Protection class indoor', coerce=str)
+    protect_class_outdoor = SelectField(u'Protection class outdoor', coerce=str)
+    earthing = SelectField(u'Earthing', coerce=str)
+    sec_wiring = SelectField(u'Secondary wiring', coerce=str)
+    
     # = StringField(label='')
     submit = SubmitField(label='Save')
+    
+class SaveForm(FlaskForm):
+    submit = SubmitField(label='Save project!')

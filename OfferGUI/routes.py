@@ -1,13 +1,23 @@
 from OfferGUI import app, db
-from flask import render_template, redirect, request, url_for, flash, get_flashed_messages, send_from_directory
-from OfferGUI.models import User, staff_costs, dropdown_elements
+from flask import render_template, redirect, request, url_for, flash, get_flashed_messages
+from OfferGUI.models import User, staff_costs, dropdown_elements, project_info
 import OfferGUI.xmltool
-from OfferGUI.forms import RegisterForm, LoginForm, ProjectForm
+from OfferGUI.forms import RegisterForm, LoginForm, ProjectForm, SaveForm
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
 import os
 import xmltodict
-import json
+from flask_table import Table, Col
+def addRow():
+    print('test')
+    item_to_create = staff_costs(Service='test')
+    db.session.add(item_to_create)
+    db.session.commit()
+def delRow():
+    print(staff_costs.query.filter_by(id))
+    # item_to_create = staff_costs(Service='test')
+    # db.session.remove
+    # db.session.commit()
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
 def home_page():
@@ -25,54 +35,104 @@ def upload_file():
 @app.route('/project', methods=['GET', 'POST'])
 @login_required
 def project_page():
-    # class from from models-py
-    dde = dropdown_elements
+    save_form = SaveForm()
+    form = ProjectForm()
     if request.method == 'GET':
+        # class from from models-py
+        dde = dropdown_elements
         # getting filepath from upload_file()
         filepath = request.args.get('filepath')
         # open xml-file in folder uploads
         with open(filepath) as fd:
             doc = xmltodict.parse(fd.read())
-        item = doc['form1']
         # class from from models.py
         dde = dropdown_elements
         # reading from database
         db_user = User.query.with_entities(User.username, User.username).all()
-        db_plant_type = dde.query.with_entities(dde.plant_type, dde.plant_type).all()
+        db_plant_type = dde.query.with_entities(dde.plant_type, dde.plant_type).filter(dde.plant_type!="NULL")
         db_busbar = dde.query.with_entities(dde.busbar, dde.busbar).filter(dde.busbar!="NULL")
         db_calc_for = dde.query.with_entities(dde.calc_for, dde.calc_for).filter(dde.calc_for!="NULL")
-
+        db_yes_no = dde.query.with_entities(dde.yes_no, dde.yes_no).filter(dde.yes_no!="NULL")
+        db_languages = dde.query.with_entities(dde.languages, dde.languages).filter(dde.languages!="NULL")
         # os.remove(filepath)
         # print('file removed')
-        form = ProjectForm()
 
-        # setting choices (used in forms.py-->class ProjectForm)
+        # setting choices (forms.py --> class ProjectForm)
         form.calc_for.choices = [k for k in db_calc_for]
         form.editor.choices = [k for k in db_user]
         form.plant_type.choices = [k for k in db_plant_type]
         form.busbar.choices = [k for k in db_busbar]
-
-        # setting data by imported xml-file (used in forms.py-->class ProjectForm)
+        form.commissioning.choices = [k for k in db_yes_no]
+        form.site_management.choices = [k for k in db_yes_no]
+        form.manpower.choices = [k for k in db_yes_no]
+        form.manpower_language.choices = [k for k in db_languages]
+        form.tools.choices = [k for k in db_yes_no]
+        # setting data by imported xml-file (forms.py --> class ProjectForm)
+        item = doc['form1']
         form.project_name.data = item['ProjektName']
         form.project_manager_dept.data = item['Vorname'] + " " + item['Nachname'] + " / " + item['Abteilung']
         form.site.data = item['TextField5'] + ", " + item['Projektland']
         form.calc_for.data = item['Angebot']
         form.number_of_bays.data = item['Anzahl']
         form.plant_type.data = item['Anlagentyp']
-        form.site_manager.data = item['Block1']['Bauleiter']
         form.editor.data = current_user.username
         form.busbar.data = item['SaS']
+        form.site_management.data = item['Block1']['Bauleiter']
+        form.commissioning.data = item['Block1']['IBSler']
+        form.manpower.data = item['Block1']['MPD_2']
+        form.manpower_language.data = item['Block1']['DropDownlist11']
+        form.tools.data = item['Block2']['Werkzeug_2']
 
-        return render_template('project_info.html', xml=item, form=form)
-    # if form.validate_on_submit():---------->
+        return render_template('project_info.html', form=form, save_form=save_form)
+    if save_form.validate_on_submit():
+        # project_info_col = [attr for attr in dir(project_info) 
+        #                             if not attr.startswith("_") 
+        #                             and attr not in ['Save project!','metadata','query','query_class']]
+        project_output = [request.form[key] for key in request.form.keys()]
+        print(project_output)
+        project_infos = project_info(project_name=project_output[2],
+                                     project_manager_dept=project_output[3],
+                                     order_indicator=project_output[4],
+                                     site=project_output[5],
+                                     customer=project_output[6],
+                                     calc_for=project_output[7],
+                                     date=project_output[8],
+                                     cost_determination=project_output[9],
+                                     editor=project_output[10],
+                                     project_id=project_output[11],
+                                     plant_type=project_output[12],
+                                     busbar=project_output[13],
+                                     number_of_bays=project_output[14])
+        db.session.add(project_infos)
+        db.session.commit()
+        flash(f"Data from project page stored in database!", category='success')
+        # project_output = [[request.form[key] for key in request.form.keys() if key == i] for i in project_info_col]
+        # print(project_output)
 
+        # for attr, value in project_info.__dict__.items():
+        #     attr = project_info_col[i]
+        #     value = project_output[i]
+
+        # for i,j in zip(project_info_col, project_output):
+        #     project_infos = project_info.__dict__.keys
+
+        return redirect(url_for('home_page'))
+    return render_template('project_info.html', form=form, save_form=save_form)
 
 @app.route('/costs', methods=['POST', 'GET'])
 @login_required
-
 def costs_page():
-    StaffCosts = staff_costs.query.all()
-    return render_template('costs.html', StaffCosts=StaffCosts)
+    items = staff_costs.query.all()
+    if request.method == 'POST':
+        if request.form.get('StaffCostPlusBtn'):
+            print('Plus')
+            addRow()
+        elif request.form.get('StaffCostMinusBtn'):     
+            print('Minus')
+            delRow()
+            return redirect(url_for('costs_page'))
+    
+    return render_template('costs.html', items=items)
 
 @app.route('/register', methods=['POST', 'GET'])
 def register_page():

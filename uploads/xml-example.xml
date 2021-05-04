@@ -15,17 +15,17 @@
 	<SaS>Double</SaS>
 	<Anzahl>11</Anzahl>
 	<Block1>
-		<Bauleiter>False</Bauleiter>
-		<IBSler>True</IBSler>
-		<MPD_2>1</MPD_2>
+		<Bauleiter>No</Bauleiter>
+		<IBSler>Yes </IBSler>
+		<MPD_2>Yes</MPD_2>
 		<DropDownlist11>German</DropDownlist11>
 	</Block1>
 	<Block2>
-		<Werkzeug_2>1</Werkzeug_2>
-		<HV-Test_2>1</HV-Test_2>
+		<Werkzeug_2>Yes </Werkzeug_2>
+		<HV-Test_2>Yes</HV-Test_2>
 	</Block2>
 	<Block3>
-		<Transport_2>1</Transport_2>
+		<Transport_2>Yes</Transport_2>
 	</Block3>
 	<Block4>
 		<Sekundaer_2>Separate LCC</Sekundaer_2>
