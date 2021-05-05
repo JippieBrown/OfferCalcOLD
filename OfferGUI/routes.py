@@ -162,7 +162,6 @@ def project_page():
         return render_template('project_info.html', form=form, save_form=save_form)
     # if request.method == 'POST':
     if save_form.validate_on_submit():
-        print('Test')
         # project_info_col = [attr for attr in dir(project_info) 
         #                             if not attr.startswith("_") 
         #                             and attr not in ['Save project!','metadata','query','query_class']]
