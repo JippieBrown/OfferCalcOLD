@@ -114,7 +114,15 @@ class SaveForm(FlaskForm):
 
     submit = SubmitField(label='Save project!')
 
-class CostForm(FlaskForm):
+class StaffCostForm(FlaskForm):
+
+    service = SelectField(u'Service', coerce=str)
+    unitprice = IntegerField(label='Unit price')
+    rentalmode = SelectField(u'Rental mode', coerce=str)
+    rentalunits = IntegerField(label='Rental units')
+    remark = StringField(label='Remark')
+
+class InstallationToolsCostForm(FlaskForm):
 
     service = SelectField(u'Service', coerce=str)
     unitprice = IntegerField(label='Unit price')

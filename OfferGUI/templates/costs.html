@@ -16,13 +16,13 @@ Costs
                     class="btn btn-outline btn-danger">-</button>
                 <thead>
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Service</th>
-                        <th scope="col">Unit price</th>
-                        <th scope="col">Rental mode</th>
-                        <th scope="col">Rental units</th>
+                        <th scope="col" style="width:50px">ID</th>
+                        <th scope="col" style="width:500px">Service</th>
+                        <th scope="col" style="width:100px">Unit price</th>
+                        <th scope="col" style="width:200px">Rental mode</th>
+                        <th scope="col" style="width:200px">Rental units</th>
                         <th scope="col">Remark</th>
-                        <th scope="col">Sum</th>
+                        <th scope="col" style="width:100px">Sum</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,12 +30,12 @@ Costs
                         {% for item in staff_items %}
                         <tr>
                             <td>{{ item.id }}</td>
-                            <td>{{ form.service(class="form-control") }}</td>
+                            <td>{{ staff_form.service(class="form-control") }}</td>
                             <td>unit price --> todo</td>
-                            <td>{{ form.rentalmode(class="form-control") }}</td>
+                            <td>{{ staff_form.rentalmode(class="form-control") }}</td>
                             <!-- <td><input type="range" class="form-range" min="0" max="5" id="customRange2"></td> -->
-                            <td>{{ form.rentalunits(class="form-control") }}</td>
-                            <td>{{ form.remark(class="form-control") }}</td>
+                            <td>{{ staff_form.rentalunits(class="form-control") }}</td>
+                            <td>{{ staff_form.remark(class="form-control") }}</td>
                             <td>sum --> todo</td>
                         </tr>
                         {% endfor %}
@@ -52,13 +52,13 @@ Costs
                 </form>
                 <thead>
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Service</th>
-                        <th scope="col">Unit price</th>
-                        <th scope="col">Rental mode</th>
-                        <th scope="col">Rental period</th>
+                        <th scope="col" style="width:50px">ID</th>
+                        <th scope="col" style="width:500px">Service</th>
+                        <th scope="col" style="width:100px">Unit price</th>
+                        <th scope="col" style="width:200px">Rental mode</th>
+                        <th scope="col" style="width:200px">Rental units</th>
                         <th scope="col">Remark</th>
-                        <th scope="col">Sum</th>
+                        <th scope="col" style="width:100px">Sum</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,19 +67,20 @@ Costs
                         {% for item in tool_items %}    
                         <tr>
                             <td>{{ item.id }}</td>
-                            <td>{{ form.service(class="form-control") }}</td>
-                            <!-- <td>{{ item.UnitPrice }}</td>
-                            <td>{{ item.RentalMode }}</td>
-                            <td>{{ item.RentalPeriod }}</td>
-                            <td>{{ item.Remark }}</td>
-                            <td>{{ item.Sum }}</td> -->
+                            <td style="width:500px">{{ install_form.service(class="form-control") }}</td>
+                            <td>unit price --> todo</td>
+                            <td>{{ install_form.rentalmode(class="form-control") }}</td>
+                            <!-- <td><input type="range" class="form-range" min="0" max="5" id="customRange2"></td> -->
+                            <td>{{ install_form.rentalunits(class="form-control") }}</td>
+                            <td>{{ install_form.remark(class="form-control") }}</td>
+                            <td>sum --> todo</td>
                         </tr>
                     {% endfor %}
                     </td>
             </table>
             <br /><br />
             <table class="table table-hover table-dark">
-                <h3>Tools costs</h3>
+                <h3>example costs</h3>
                 <button class="btn btn-outline btn-success">+</button>
                 <button class="btn btn-outline btn-danger">-</button>
                 <thead>

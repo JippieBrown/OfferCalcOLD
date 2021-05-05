@@ -20,8 +20,32 @@ class User(db.Model, UserMixin):
         self.password_hash = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
     def check_password_correction(self, attempted_password):
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
-            
-class staff_costs(db.Model):
+
+class static_costs_commissioning_tools(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    service = db.Column(db.String())
+
+class static_costs_installation_tools(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    service = db.Column(db.String())
+
+class static_costs_site_equipment(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    service = db.Column(db.String())
+
+class static_costs_staff(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    service = db.Column(db.String())
+
+class static_costs_testing_tools(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    service = db.Column(db.String())
+
+class static_costs_travel_accommodation(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    service = db.Column(db.String())
+
+class temp_staff_costs(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     Service = db.Column(db.String(length=30), nullable=False, unique=True)
     UnitPrice = db.Column(db.Integer(), nullable=False)
@@ -32,16 +56,7 @@ class staff_costs(db.Model):
     # def __repr__(self):
     #     return f'staff_costs {self.name}'
     
-class static_staff_costs(db.Model):
-    id = db.Column(db.Integer(), primary_key=True)
-    service = db.Column(db.String())
-    price_reg_inquiry_RC = db.Column(db.String())
-    price_reg_inquiry_OE = db.Column(db.String())
-    price_reg_inquiry_RC_DE = db.Column(db.String())
-    rental_mode = db.Column(db.String())
-
-
-class tool_costs(db.Model):
+class temp_tool_costs(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     Service = db.Column(db.String(length=30), nullable=False, unique=True)
     UnitPrice = db.Column(db.Integer(), nullable=False)
@@ -59,6 +74,8 @@ class dropdown_elements(db.Model):
     calc_for = db.Column(db.String())
     yes_no = db.Column(db.String())
     languages = db.Column(db.String())
+    #check database
+    rental_mode = db.Column(db.String())
     # def __repr__(self):
     #     return f'dropdown_elements {self.name}'
 

@@ -1,8 +1,7 @@
 from OfferGUI import app, db
+from OfferGUI.models import *
+from OfferGUI.forms import *
 from flask import render_template, redirect, request, url_for, flash, get_flashed_messages
-from OfferGUI.models import User, staff_costs, tool_costs, dropdown_elements, project_info, static_staff_costs
-import OfferGUI.xmltool
-from OfferGUI.forms import RegisterForm, LoginForm, ProjectForm, SaveForm, CostForm
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
 import os
@@ -26,39 +25,44 @@ def delRow(table):
 @app.route('/costs', methods=['POST', 'GET'])
 @login_required
 def costs_page():
-    form = CostForm()
-    sc = staff_costs
-    static_sc = static_staff_costs
+    staff_form = StaffCostForm()
+    install_form = InstallationToolsCostForm()
+    sc = temp_staff_costs
+    stat_c_s = static_costs_staff
+    stat_c_it = static_costs_installation_tools
+    # class from from models-py
+    dde = dropdown_elements
     #reading from database
-    db_static_service = static_sc.query.with_entities(static_sc.service, 
-                                                      static_sc.service).filter(
-                                                      static_sc.service!="NULL")
-    # db_static_unitprice = static_sc.query.with_entities(static_sc.price_reg_inquiry_RC, 
-    #                                                     static_sc.price_reg_inquiry_RC).filter(
-    #                                                     static_sc.price_reg_inquiry_RC!="NULL")
-    db_static_rentalmode = static_sc.query.with_entities(static_sc.rental_mode, 
-                                                        static_sc.rental_mode).filter(
-                                                        static_sc.rental_mode!="NULL")    
+    db_static_staff = stat_c_s.query.with_entities(stat_c_s.service, 
+                                                   stat_c_s.service).filter(
+                                                   stat_c_s.service!="NULL")
+    db_static_rentalmode = dde.query.with_entities(dde.rental_mode, 
+                                                   dde.rental_mode).filter(
+                                                   dde.rental_mode!="NULL")    
+    db_static_installation = stat_c_it.query.with_entities(stat_c_it.service, 
+                                                           stat_c_it.service).filter(
+                                                           stat_c_it.service!="NULL")  
+    
     #setting choices
-    form.service.choices = [k for k in db_static_service]
-    form.rentalmode.choices = [k for k in db_static_rentalmode]
-    form.unitprice.data = 100
-    staff_items = staff_costs.query.all()
-    tool_items = tool_costs.query.all()
+    staff_form.service.choices = [k for k in db_static_staff]
+    staff_form.rentalmode.choices = [k for k in db_static_rentalmode]
+    install_form.service.choices = [k for k in db_static_installation]
+    staff_items = temp_staff_costs.query.all()
+    tool_items = temp_tool_costs.query.all()
 
 
     if request.method == 'POST':
         if request.form.get('StaffCostPlusBtn'):
-            addRow(staff_costs)
+            addRow(temp_staff_costs)
         elif request.form.get('StaffCostMinusBtn'):     
-            delRow(staff_costs)
+            delRow(temp_staff_costs)
         elif request.form.get('ToolCostPlusBtn'):
-            addRow(tool_costs)
+            addRow(temp_tool_costs)
         elif request.form.get('ToolCostMinusBtn'):
-            delRow(tool_costs)        
+            delRow(temp_tool_costs)        
         return redirect(url_for('costs_page'))
     
-    return render_template('costs.html', form=form, staff_items=staff_items, tool_items=tool_items)
+    return render_template('costs.html', staff_form=staff_form, install_form=install_form, staff_items=staff_items, tool_items=tool_items)
 
 @app.route('/register', methods=['POST', 'GET'])
 def register_page():
