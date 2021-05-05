@@ -30,14 +30,18 @@ def costs_page():
     sc = staff_costs
     static_sc = static_staff_costs
     #reading from database
-    db_static_service = static_sc.query.with_entities(static_sc.Service, 
-                                                      static_sc.Service).filter(
-                                                      static_sc.Service!="NULL")
-    db_static_unitprice = static_sc.query.with_entities(static_sc.price_reg_inquiry_RC, 
-                                                        static_sc.price_reg_inquiry_RC).filter(
-                                                        static_sc.price_reg_inquiry_RC!="NULL")
+    db_static_service = static_sc.query.with_entities(static_sc.service, 
+                                                      static_sc.service).filter(
+                                                      static_sc.service!="NULL")
+    # db_static_unitprice = static_sc.query.with_entities(static_sc.price_reg_inquiry_RC, 
+    #                                                     static_sc.price_reg_inquiry_RC).filter(
+    #                                                     static_sc.price_reg_inquiry_RC!="NULL")
+    db_static_rentalmode = static_sc.query.with_entities(static_sc.rental_mode, 
+                                                        static_sc.rental_mode).filter(
+                                                        static_sc.rental_mode!="NULL")    
     #setting choices
     form.service.choices = [k for k in db_static_service]
+    form.rentalmode.choices = [k for k in db_static_rentalmode]
     form.unitprice.data = 100
     staff_items = staff_costs.query.all()
     tool_items = tool_costs.query.all()

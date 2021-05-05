@@ -7,7 +7,7 @@ Costs
 {% block content %}
 <form method="POST" class="form-register" style="color:white">
     <div class="row" style="margin-top:20px; margin-left:20px">
-        <div class="col-8">
+        <div class="col-11">
             <table class="table table-hover table-dark">
                 <h3>Staff costs</h3>
                 <button type="submit" name="StaffCostPlusBtn" value="StaffCostPlusBtn"
@@ -20,7 +20,7 @@ Costs
                         <th scope="col">Service</th>
                         <th scope="col">Unit price</th>
                         <th scope="col">Rental mode</th>
-                        <th scope="col">Rental period</th>
+                        <th scope="col">Rental units</th>
                         <th scope="col">Remark</th>
                         <th scope="col">Sum</th>
                     </tr>
@@ -31,7 +31,12 @@ Costs
                         <tr>
                             <td>{{ item.id }}</td>
                             <td>{{ form.service(class="form-control") }}</td>
-                            <!-- <td>{{ form.service(class="form-control") }}</td> -->
+                            <td>unit price --> todo</td>
+                            <td>{{ form.rentalmode(class="form-control") }}</td>
+                            <!-- <td><input type="range" class="form-range" min="0" max="5" id="customRange2"></td> -->
+                            <td>{{ form.rentalunits(class="form-control") }}</td>
+                            <td>{{ form.remark(class="form-control") }}</td>
+                            <td>sum --> todo</td>
                         </tr>
                         {% endfor %}
                     </td>

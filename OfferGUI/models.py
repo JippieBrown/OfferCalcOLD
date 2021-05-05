@@ -26,7 +26,7 @@ class staff_costs(db.Model):
     Service = db.Column(db.String(length=30), nullable=False, unique=True)
     UnitPrice = db.Column(db.Integer(), nullable=False)
     RentalMode = db.Column(db.String(), nullable=False)
-    RentalPeriod = db.Column(db.String(), nullable=False)
+    RentalUnits = db.Column(db.String(), nullable=False)
     Remark = db.Column(db.String(length=60), nullable=False)
     Sum = db.Column(db.Integer(), nullable=False)
     # def __repr__(self):
@@ -34,8 +34,12 @@ class staff_costs(db.Model):
     
 class static_staff_costs(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    Service = db.Column(db.String())
+    service = db.Column(db.String())
     price_reg_inquiry_RC = db.Column(db.String())
+    price_reg_inquiry_OE = db.Column(db.String())
+    price_reg_inquiry_RC_DE = db.Column(db.String())
+    rental_mode = db.Column(db.String())
+
 
 class tool_costs(db.Model):
     id = db.Column(db.Integer(), primary_key=True)

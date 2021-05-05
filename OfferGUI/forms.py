@@ -118,3 +118,6 @@ class CostForm(FlaskForm):
 
     service = SelectField(u'Service', coerce=str)
     unitprice = IntegerField(label='Unit price')
+    rentalmode = SelectField(u'Rental mode', coerce=str)
+    rentalunits = IntegerField(label='Rental units')
+    remark = StringField(label='Remark')
